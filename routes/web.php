@@ -40,6 +40,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );
 
+Route::post('/handled', function () {
+    // TODO
+});
+Route::post('/unhandled', function () {
+    // TODO
+});
 Route::post('/checkout', function () {
     // TODO produce the /checkout logic in PHP
 });

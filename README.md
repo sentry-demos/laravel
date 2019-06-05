@@ -1,3 +1,7 @@
+# PR Notes
+- delete resources/views/home.blade.php and as much front-end View code you can, styling.
+- remove additional files
+
 # Sentry Laravel Example
 
 This shows how to use Sentry in Laravel to capture errors/exceptions

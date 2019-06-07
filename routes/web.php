@@ -1,6 +1,6 @@
 <?php
-// NO
-// use Sentry;
+
+use App\Exceptions\Handler;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,25 +13,16 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );
 
-// https://sentry.io/for/laravel/
 Route::get('/handled', function () {
-    // logs nothing
-    // Log::info('XXXXXXXXXXXXXXXXXX');
-    echo "XXXXXXXXXX";
     try {
-        $this->functionFailsForSure();
+        thisFunctionFails();
     } catch (\Throwable $exception) {
-        // echo "1111";
-
-        // if (app()->bound('Laravel') && $this->shouldReport($exception)) {
-        //     // app('Laravel')->captureException($exception);
-        // echo "2222";
-
-        // }
-        // NO
-        // Sentry\captureException($exception);
+        // Sentry Event is sent by 'report' function in Handler.php
+        report($exception);
     }
-    return 'HEYOOOOOOH';
+    // echo $exception
+    // return "see Sentry.io";
+    return $exception;
 });
 Route::get('/unhandled', function () {
     1/0;

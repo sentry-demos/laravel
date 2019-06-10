@@ -38,9 +38,12 @@ Route::get('/unhandled', function () {
  * https://stackoverflow.com/questions/35137768/how-to-use-postman-for-laravel-post-request/35141336
  * excluding csrf requirement https://laravel.com/docs/5.1/routing#csrf-excluding-uris
  */
-Route::post('/checkout', function () {
+Route::post('/checkout', ['middleware' => 'cors',function () {
+// Route::post('/checkout', ['middleware' => 'cors',function () {
+    // header("Access-Control-Allow-Origin: *");
+
     // TODO produce the /checkout logic in PHP
-    echo 'checkout...';
+    // echo 'checkout...';
 
     // order = json.loads(request.data)
     // print "Processing order for: " + order["email"]
@@ -50,4 +53,5 @@ Route::post('/checkout', function () {
 
     return 'Success';
 
-});
+}]);
+// })->middleware('cors');

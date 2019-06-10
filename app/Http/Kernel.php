@@ -1,5 +1,7 @@
 <?php
-
+// https://stackoverflow.com/questions/39429462/adding-access-control-allow-origin-header-response-in-laravel-5-3-passport
+// https://medium.com/@petehouston/allow-cors-in-laravel-2b574c51d0c1
+// could try https://github.com/barryvdh/laravel-cors
 namespace App\Http;
 
 use App\Http\Middleware\SentryContext;
@@ -25,6 +27,7 @@ class Kernel extends HttpKernel
         StartSession::class,
         ShareErrorsFromSession::class,
         SentryContext::class,
+        \App\Http\Middleware\Cors::class // $middlewareGroups not $middleware?
     ];
 
     /**
@@ -40,12 +43,14 @@ class Kernel extends HttpKernel
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class
+            // \App\Http\Middleware\Cors::class // $middleware not $middlewareGroups?
         ],
 
         'api' => [
             'throttle:60,1',
-            'bindings',
+            'bindings'
+            // \App\Http\Middleware\Cors::class
         ],
     ];
 
@@ -64,6 +69,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class
+        // 'cors' => \App\Http\Middleware\Cors::class // barryvdh ?
     ];
 }

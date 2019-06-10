@@ -1,8 +1,15 @@
 <?php
 
 namespace App\Http\Middleware;
+
 use Closure;
-class Cors extends Middleware {
+
+use Illuminate\Contracts\Routing\Middleware;
+use Illuminate\Http\Response;
+
+class Cors extends Middleware // extends Middleware?
+{
+    
     public function handle($request, Closure $next)
     {
         return $next($request)

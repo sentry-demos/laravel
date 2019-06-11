@@ -2,13 +2,16 @@
 
 use App\Exceptions\Handler;
 use Illuminate\Http\Request; // ?
+use Illuminate\Http\Response;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
-header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Origin: *");
+// header("Access-Control-Allow-Headers: Content-Type");
+
 
 Auth::routes();
 
@@ -28,7 +31,13 @@ Route::get('/handled', function (Request $request) {
 });
 
 Route::get('/unhandled', function () {
-    1/0;
+    // 1/0;
+    return 'unhandled success';
+    // return response('Hello World', 200)
+    // ->header('Access-Control-Allow-Origin', '*')
+    // ->header('Access-Control-Allow-Headers', 'Content-Type')
+    // ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
 });
 
 /**
@@ -39,8 +48,11 @@ Route::get('/unhandled', function () {
  * excluding csrf requirement https://laravel.com/docs/5.1/routing#csrf-excluding-uris
  */
 Route::post('/checkout', ['middleware' => 'cors',function () {
+    echo '\n~~~~~~~~~~~~~~~~~~~~~~~~~~ checkout ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n';
+
 // Route::post('/checkout', ['middleware' => 'cors',function () {
     // header("Access-Control-Allow-Origin: *");
+    // header("Access-Control-Allow-Headers: Content-Type");
 
     // TODO produce the /checkout logic in PHP
     // echo 'checkout...';
@@ -51,7 +63,11 @@ Route::post('/checkout', ['middleware' => 'cors',function () {
     
     // process_order(cart)
 
-    return 'Success';
+    return 'Successfull';
+    // return response('Hello World', 200)
+                //   ->header('Access-Control-Allow-Origin', '*');
+    //               ->header('Access-Control-Allow-Headers', 'Content-Type')
+    //               ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
 }]);
 // })->middleware('cors');

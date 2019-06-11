@@ -27,7 +27,7 @@ class Kernel extends HttpKernel
         StartSession::class,
         ShareErrorsFromSession::class,
         SentryContext::class,
-        \App\Http\Middleware\Cors::class // $middlewareGroups not $middleware?
+        // \App\Http\Middleware\Cors::class
     ];
 
     /**
@@ -44,7 +44,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\Cors::class // $middleware not $middlewareGroups?
+            \App\Http\Middleware\Cors::class
         ],
 
         'api' => [
@@ -69,7 +69,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class
-        // 'cors' => \App\Http\Middleware\Cors::class // barryvdh ?
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'cors' => \App\Http\Middleware\Cors::class // barryvdh ?
     ];
 }

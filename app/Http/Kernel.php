@@ -1,7 +1,4 @@
 <?php
-// https://stackoverflow.com/questions/39429462/adding-access-control-allow-origin-header-response-in-laravel-5-3-passport
-// https://medium.com/@petehouston/allow-cors-in-laravel-2b574c51d0c1
-// could try https://github.com/barryvdh/laravel-cors
 namespace App\Http;
 
 use App\Http\Middleware\SentryContext;
@@ -70,6 +67,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'cors' => \App\Http\Middleware\Cors::class // try barryvdh ?
+        'cors' => \App\Http\Middleware\Cors::class
     ];
 }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Exceptions\Handler;
-use Illuminate\Http\Request; // ?
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 // use Illuminate\Http\JsonResponse;
@@ -22,8 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout' );
 
 Route::get('/handled', function (Request $request) {
-    echo $request;
-    echo '\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n';
     try {
         thisFunctionFails();
     } catch (\Throwable $exception) {
@@ -43,15 +41,19 @@ Route::get('/unhandled', function () {
 
 });
 
-Route::post('/checkout', ['middleware' => 'cors',function () {
+Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
     error_log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    // error_log($request->json());
+    error_log($request->getContent());
+    // error_log($request.post());
+
 
     // order = json.loads(request.data)
     // print "Processing order for: " + order["email"]
     // cart = order["cart"]
     // process_order(cart)
 
-    return 'Successfull';
+    return $request;
     // return response('Hello World', 200)
     //               ->header('Access-Control-Allow-Origin', '*')
     //               ->header('Access-Control-Allow-Headers', 'Content-Type')

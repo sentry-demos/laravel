@@ -23,10 +23,6 @@ class Cors
     
         // if ($request->method() == "OPTIONS") {
         //     return response('')
-        //         ->header('Access-Control-Allow-Origin', '*')
-        //         ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-        //         ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization, x-transaction-id');
-        // }
 
         return $next($request)
             ->header('Access-Control-Allow-Origin', '*')

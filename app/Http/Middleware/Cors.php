@@ -19,11 +19,6 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
-        error_log($request->method());
-    
-        // if ($request->method() == "OPTIONS") {
-        //     return response('')
-
         return $next($request)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')

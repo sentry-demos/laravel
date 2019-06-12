@@ -4,8 +4,14 @@ use App\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-// use Illuminate\Http\JsonResponse;
-// use Illuminate\Support\Facades\Log;
+// use Monolog\Logger;
+// use Monolog\Handler\StreamHandler;
+// // create a log channel
+// $log = new Logger('name');
+// $log->pushHandler(new StreamHandler('path/to/your.log', Logger::WARNING));
+//     $log->warning('Foo');
+//     $log->error('Bar');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,37 +47,29 @@ Route::get('/unhandled', function () {
 
 });
 
-// error_log($request->json());
-// error_log($request.post());
-// both work
-// error_log("1 "."2");
-// error_log("1 ".$order);
+function process_order(array $cart) {
+    // print_r("CART...");
+    error_log("Cart...size".sizeof($cart));
+
+    foreach ($cart as $val) {
+        error_log("Cart...iterate...");
+        error_log(json_encode($val));
+        error_log(serialize($val));
+
+        // error_log("$key => $val");
+        // echo "$key => $val \n";
+    }
+}
+
 Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
-    error_log("11111");
 
-    $order = $request->getContent();
-    error_log($order);
-    // error_log($order->email); // "Trying to get a property of a non-object"
-    // error_log($order['email']); // "Illegal string offset 'email'"
-
-    // $someJSON = json_encode($order);
-    // error_log($someJSON->email); // "Trying to get a property of a non-object"
-    // error_log($someJSON['email']); // "Illegal string offset 'email'"
-
-    $myobj = json_decode($order);
-    error_log($myobj->email);
+    $payload = $request->getContent();
+    $order = json_decode($payload);
+    error_log($order->email);
+    process_order($order->cart);
 
 
-
-    // error_log("Processing order for: ".$order->email);    
     // cart = order["cart"]
-    // process_order(cart)
-
-
-//     $someObject = ...; // Replace ... with your PHP Object
-//   foreach($someObject as $key => $value) {
-//     echo $value->name . ", " . $value->gender . "<br>";
-//   }
 
     return 'successful';
     // return response('Hello World', 200)

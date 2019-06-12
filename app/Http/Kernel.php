@@ -27,7 +27,7 @@ class Kernel extends HttpKernel
         StartSession::class,
         ShareErrorsFromSession::class,
         SentryContext::class,
-        // \App\Http\Middleware\Cors::class
+        \App\Http\Middleware\Cors::class
     ];
 
     /**
@@ -49,8 +49,8 @@ class Kernel extends HttpKernel
 
         'api' => [
             'throttle:60,1',
-            'bindings'
-            // \App\Http\Middleware\Cors::class
+            'bindings',
+            \App\Http\Middleware\Cors::class
         ],
     ];
 

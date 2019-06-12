@@ -3,6 +3,9 @@
 use App\Exceptions\Handler;
 use Illuminate\Http\Request; // ?
 use Illuminate\Http\Response;
+
+// use Illuminate\Http\JsonResponse;
+// use Illuminate\Support\Facades\Log;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,34 +43,17 @@ Route::get('/unhandled', function () {
 
 });
 
-/**
- * Need CSRF token?
- * https://stackoverflow.com/questions/30756682/laravel-x-csrf-token-mismatch-with-postman
- * 
- * https://stackoverflow.com/questions/35137768/how-to-use-postman-for-laravel-post-request/35141336
- * excluding csrf requirement https://laravel.com/docs/5.1/routing#csrf-excluding-uris
- */
 Route::post('/checkout', ['middleware' => 'cors',function () {
-    echo '\n~~~~~~~~~~~~~~~~~~~~~~~~~~ checkout ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n';
-
-// Route::post('/checkout', ['middleware' => 'cors',function () {
-    // header("Access-Control-Allow-Origin: *");
-    // header("Access-Control-Allow-Headers: Content-Type");
-
-    // TODO produce the /checkout logic in PHP
-    // echo 'checkout...';
+    error_log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
     // order = json.loads(request.data)
     // print "Processing order for: " + order["email"]
     // cart = order["cart"]
-    
     // process_order(cart)
 
     return 'Successfull';
     // return response('Hello World', 200)
-                //   ->header('Access-Control-Allow-Origin', '*');
+    //               ->header('Access-Control-Allow-Origin', '*')
     //               ->header('Access-Control-Allow-Headers', 'Content-Type')
     //               ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-
 }]);
-// })->middleware('cors');

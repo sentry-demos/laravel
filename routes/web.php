@@ -70,7 +70,7 @@ function process_order(array $cart) {
 
 Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
     global $inventory;
-    error_log("XXXX");
+    // logs blank, but should be there according to https://www.php.net/manual/en/language.types.object.php ?
     error_log($inventory);
 
     $payload = $request->getContent();

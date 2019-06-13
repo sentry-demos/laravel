@@ -1,25 +1,27 @@
 <?php
-
+include 'inventory.php';
 use App\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-// use Monolog\Logger;
-// use Monolog\Handler\StreamHandler;
-// // create a log channel
-// $log = new Logger('name');
-// $log->pushHandler(new StreamHandler('path/to/your.log', Logger::WARNING));
-//     $log->warning('Foo');
-//     $log->error('Bar');
+/**
+ * DEV NOTES
+ * no global scope
+ * can't persist state between http requests, so try putting Inventory in separate file (a separate process)
+ * no objects with {} marks, though laravel's () is an option
+ * associative array is alternative to an object, but will be harder to iterate through and use in process_order
+ * can't get $global keyword to work according to https://www.php.net/manual/en/language.types.object.php
+ */
+
+// DEV NOTE    
+// works, the variable comes from inventory.php
+error_log(json_encode($inventory));
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
-
-// header("Access-Control-Allow-Origin: *");
-// header("Access-Control-Allow-Headers: Content-Type");
 
 
 Auth::routes();
@@ -38,42 +40,46 @@ Route::get('/handled', function (Request $request) {
 });
 
 Route::get('/unhandled', function () {
-    // 1/0;
-    return 'unhandled success';
-    // return response('Hello World', 200)
-    // ->header('Access-Control-Allow-Origin', '*')
-    // ->header('Access-Control-Allow-Headers', 'Content-Type')
-    // ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-
+    1/0;
 });
 
 function process_order(array $cart) {
-    // print_r("CART...");
-    error_log("Cart...size".sizeof($cart));
+    global $inventory;
 
-    foreach ($cart as $val) {
-        error_log("Cart...iterate...");
-        error_log(json_encode($val));
-        error_log(serialize($val));
+    // logs blank
+    error_log(json_encode($inventory));
 
-        // error_log("$key => $val");
-        // echo "$key => $val \n";
+    global $inventory;
+    error_log($inventory);
+    $tempInventory = $inventory;
+
+    error_log($tempInventory);
+    foreach ($cart as $item) {
+        // error_log(json_encode($item));
+        // error_log(serialize($item)); // O:8:"stdClass":4:{s:2:"id";s:6:"hammer";s:4:"name";s:6:"Hammer";s:5:"price";i:1000;s:3:"img";s:33:"/static/media/hammer.9b816abf.png";}
+
+        if ($Inventory[$item['id']] <= 0) {
+            // raise exception...
+        } else {
+            $tempInventory[$item['id']] -= 1;
+            // php for: print 'Success: ' + item['id'] + ' was purchased, remaining stock is ' + str(tempInventory[item['id']])
+        }
     }
+    $Inventory = $tempInventory;
 }
 
 Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
+    global $inventory;
+    error_log("XXXX");
+    error_log($inventory);
 
     $payload = $request->getContent();
     $order = json_decode($payload);
     error_log($order->email);
-    process_order($order->cart);
-
+    process_order($order->cart, json_encode($inventory));
 
     // cart = order["cart"]
 
     return 'successful';
-    // return response('Hello World', 200)
-    //               ->header('Access-Control-Allow-Origin', '*')
-    //               ->header('Access-Control-Allow-Headers', 'Content-Type')
-    //               ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
 }]);

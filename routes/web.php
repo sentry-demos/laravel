@@ -4,6 +4,8 @@ use App\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+use Illuminate\Support\Facades\Cache;
+
 /**
  * DEV NOTES
  * no global scope
@@ -15,12 +17,15 @@ use Illuminate\Http\Response;
  * idea - create a Factory that doesn't touch a real DB but returns dummy data? synchronously
  * idea - try using 'config' modules in Laravel, but are these immutable?
  * idea - is there a way to reference inventory.php from within the /checkout route?
+ * idea - laravel's Cache fake database...?
  */
 
 // DEV NOTE    
 // works, the variable comes from inventory.php
 error_log(json_encode($inventory));
 
+// Cache::pull('wrench');
+// Cache::flush();
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,14 +78,26 @@ function process_order(array $cart) {
 }
 
 Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
+
+    $value = Cache::get('wrench', 1);
+    error_log('11111111');
+    // $v1 = "my value";
+    // error_log("value is " . $v1); // TODO
+    error_log($value);
+    error_log('222222');
+
+    Cache::increment('wrench', 1);
+
+
+
     global $inventory;
     // logs blank, but should be there according to https://www.php.net/manual/en/language.types.object.php ?
-    error_log($inventory);
+    // error_log($inventory);
 
     $payload = $request->getContent();
     $order = json_decode($payload);
     error_log($order->email);
-    process_order($order->cart, json_encode($inventory));
+    // process_order($order->cart, json_encode($inventory));
 
     // cart = order["cart"]
 

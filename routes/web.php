@@ -22,10 +22,9 @@ use Illuminate\Support\Facades\Cache;
 
 // DEV NOTE    
 // works, the variable comes from inventory.php
-error_log(json_encode($inventory));
+// error_log(json_encode($inventory));
 
-// Cache::pull('wrench');
-// Cache::flush();
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,12 +51,24 @@ Route::get('/unhandled', function () {
     1/0;
 });
 
+function check_cache() {
+    if (!Cache::has('wrench')) {
+        Cache::increment('wrench', 1);        
+    }
+    if (!Cache::has('nails')) {
+        Cache::increment('nails', 1);
+    }
+    if (!Cache::has('hammer')) {
+        Cache::increment('hammer', 1);
+    }
+}
 function process_order(array $cart) {
-    global $inventory;
+    // TODO - CREATE AN INVENTORY OBJECT/DS based on...
+    $wrench = Cache::get('wrench');
+    $nails = Cache::get('nails');
+    $hammer = Cache::get('hammer');
 
-    // logs blank
-    error_log(json_encode($inventory));
-
+    // TODO - remove 'global'
     global $inventory;
     error_log($inventory);
     $tempInventory = $inventory;
@@ -78,27 +89,20 @@ function process_order(array $cart) {
 }
 
 Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
+    check_cache();
 
-    $value = Cache::get('wrench', 1);
-    error_log('11111111');
-    // $v1 = "my value";
-    // error_log("value is " . $v1); // TODO
-    error_log($value);
-    error_log('222222');
-
+    // TODO - remove
+    $value = Cache::get('wrench');
+    error_log('1111111 ' . $value);
     Cache::increment('wrench', 1);
 
-
-
-    global $inventory;
-    // logs blank, but should be there according to https://www.php.net/manual/en/language.types.object.php ?
-    // error_log($inventory);
 
     $payload = $request->getContent();
     $order = json_decode($payload);
     error_log($order->email);
-    // process_order($order->cart, json_encode($inventory));
 
+    // TODO - *START* here
+    // process_order($order->cart);
     // cart = order["cart"]
 
     return 'successful';

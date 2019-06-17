@@ -7,10 +7,14 @@ use Illuminate\Http\Response;
 /**
  * DEV NOTES
  * no global scope
- * can't persist state between http requests, so try putting Inventory in separate file (a separate process)
+ * can't persist state between http requests
+ * I put Inventory in separate file (a separate process) and web.php can access it, but not form within the api route
  * no objects with {} marks, though laravel's () is an option
  * associative array is alternative to an object, but will be harder to iterate through and use in process_order
  * can't get $global keyword to work according to https://www.php.net/manual/en/language.types.object.php
+ * idea - create a Factory that doesn't touch a real DB but returns dummy data? synchronously
+ * idea - try using 'config' modules in Laravel, but are these immutable?
+ * idea - is there a way to reference inventory.php from within the /checkout route?
  */
 
 // DEV NOTE    

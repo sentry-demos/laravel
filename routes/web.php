@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Cache;
 */
 
 
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -62,47 +63,66 @@ function check_cache() {
         Cache::increment('hammer', 1);
     }
 }
+
+class Inventory {
+    var $wrench;
+    var $nails;
+    var $hammer;
+    public function __construct() 
+    {
+        $this->wrench = Cache::get('wrench');
+        $this->nails = Cache::get('nails');
+        $this->hammer = Cache::get('hammer');
+    }
+
+    public function getItem($item) {
+        error_log("getting item..." . $item);
+        return $this->$item;
+    }
+
+    public function decrement($item) {
+        $this->$item = $this->$item - 1; // -= 1;
+    }
+
+}
+
 function process_order(array $cart) {
-    // TODO - CREATE AN INVENTORY OBJECT/DS based on...
-    $wrench = Cache::get('wrench');
-    $nails = Cache::get('nails');
-    $hammer = Cache::get('hammer');
+    $Inventory = new Inventory();
+    error_log("Inventory" . json_encode($Inventory));
 
-    // TODO - remove 'global'
-    global $inventory;
-    error_log($inventory);
-    $tempInventory = $inventory;
+    $tempInventory = $Inventory;
+    error_log("tempInventory" . json_encode($tempInventory));
 
-    error_log($tempInventory);
     foreach ($cart as $item) {
-        // error_log(json_encode($item));
-        // error_log(serialize($item)); // O:8:"stdClass":4:{s:2:"id";s:6:"hammer";s:4:"name";s:6:"Hammer";s:5:"price";i:1000;s:3:"img";s:33:"/static/media/hammer.9b816abf.png";}
+        error_log("cart item " . json_encode($item));
 
-        if ($Inventory[$item['id']] <= 0) {
-            // raise exception...
+        error_log("GGGGG " . $Inventory->getItem("nails"));
+
+        if ($Inventory->getItem($item->id) <= 0) {
+            error_log("FAILURE no Inventory");
         } else {
-            $tempInventory[$item['id']] -= 1;
-            // php for: print 'Success: ' + item['id'] + ' was purchased, remaining stock is ' + str(tempInventory[item['id']])
+            $tempInventory->decrement($item); // -=1;
+            error_log("SUCCESS"); // error_log("Success: " . $item["id"] . " was purchased, remaining stock is " . str($tempInventory[$item["id"]])
         }
     }
     $Inventory = $tempInventory;
 }
 
+// TODO - tag scope, email, inventory, cart, other? see Flask demo
 Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
     check_cache();
 
     // TODO - remove
-    $value = Cache::get('wrench');
-    error_log('1111111 ' . $value);
-    Cache::increment('wrench', 1);
+    // $value = Cache::get('wrench');
+    // error_log('1111111 ' . $value);
+    // Cache::increment('wrench', 1);
 
 
     $payload = $request->getContent();
     $order = json_decode($payload);
     error_log($order->email);
 
-    // TODO - *START* here
-    // process_order($order->cart);
+    process_order($order->cart);
     // cart = order["cart"]
 
     return 'successful';

@@ -26,8 +26,13 @@ class SentryContext
                 $sentry->user_context(['id' => null]);
             }
 
-            // Setting tag
-            $sentry->tags_context(['customerType' => 'enterprise']);
+            // TODO - get the request header 
+
+            // Setting tags
+            $sentry->tags_context([
+                'customerType' => 'enterprise',
+                'transaction_id' => $request->X-Transaction-ID
+            ]);
 
             $commitHash = trim(exec('git rev-parse HEAD'));
             $sentry->setRelease($commitHash);

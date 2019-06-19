@@ -34,10 +34,31 @@ class SentryContext
                 'transaction_id' => $transaction_id
             ]);
 
+            // Set what the current inventory is
+            set_inventory();
+            // $sentry->set_extra("inventory", read_inventory());
+
             $commitHash = trim(exec('git rev-parse HEAD'));
             $sentry->setRelease($commitHash);
         }
 
         return $next($request);
+    }
+
+    // public function read_inventory() {
+    //     $inventory = new StdClass();
+    //     $inventory->wrench = Cache::get('wrench');
+    //     $inventory->nails = Cache::get('nails');
+    //     $inventory->hammer = Cache::get('hammer');
+    //     return $inventory;
+    // }
+
+    public function set_inventory() {
+        $tools = array(1 => "wrench", 2 => "nails", 3 => "hammer");
+        foreach ($tools as &$tool) {
+            if (!Cache::has($tool)) {
+                Cache::increment($tool, 1);        
+            }
+        }
     }
 }

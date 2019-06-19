@@ -29,7 +29,9 @@ Route::get('/unhandled', function () {
 });
 
 Route::post('/checkout', function (Request $request) {
-    load_cache();
+    // set_inventory();
+    // $sentry = app('sentry');
+    // $sentry->set_extra("inventory", get_inventory());
     
     $payload = $request->getContent();
     $order = json_decode($payload);
@@ -40,11 +42,11 @@ Route::post('/checkout', function (Request $request) {
     return 'success';
 });
 
-function decrementStock($item) {
+function decrementInventory($item) {
     Cache::decrement($item->id, 1);
     error_log($item->id . " purchased");
 }
-function getInventory() {
+function get_inventory() {
     $inventory = new StdClass();
     $inventory->wrench = Cache::get('wrench');
     $inventory->nails = Cache::get('nails');
@@ -52,10 +54,10 @@ function getInventory() {
     return $inventory;
 }
 function isOutOfStock($item) {
-    $inventory = getInventory();
+    $inventory = get_inventory();
     return $inventory->{$item->id} <= 0;
 }
-function load_cache() {
+function set_inventory() {
     $tools = array(1 => "wrench", 2 => "nails", 3 => "hammer");
     foreach ($tools as &$tool) {
         if (!Cache::has($tool)) {
@@ -66,10 +68,10 @@ function load_cache() {
 function process_order(array $cart) {
     foreach ($cart as $item) {
         if (isOutOfStock($item)) {
-            error_log("Not enough stock for " . $item->id);
+            error_log("Not enough inventory for " . $item->id);
             throw new Exception("Not enough inventory for " . $item->id);
         } else {
-            decrementStock($item);
+            decrementInventory($item);
         }
     }
 }

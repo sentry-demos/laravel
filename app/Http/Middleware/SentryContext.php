@@ -36,7 +36,8 @@ class SentryContext
 
             // Set what the current inventory is
             set_inventory();
-            // $sentry->set_extra("inventory", read_inventory());
+            // error_log(json_encode($sentry));
+            $sentry->setExtra("inventory", read_inventory());
 
             $commitHash = trim(exec('git rev-parse HEAD'));
             $sentry->setRelease($commitHash);

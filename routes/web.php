@@ -28,7 +28,8 @@ Route::get('/unhandled', function () {
     1/0;
 });
 
-Route::post('/checkout', function (Request $request) {
+// Route::post('/checkout', function (Request $request) {
+Route::post('/checkout', ['middleware' => 'cors', function (Request $request) {
     // set_inventory();
     // $sentry = app('sentry');
     // $sentry->set_extra("inventory", get_inventory());
@@ -40,7 +41,7 @@ Route::post('/checkout', function (Request $request) {
     process_order($order->cart);
 
     return 'success';
-});
+}]);
 
 function decrementInventory($item) {
     Cache::decrement($item->id, 1);

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Cache;
 
 class SentryContext
 {
@@ -34,10 +35,12 @@ class SentryContext
                 'transaction_id' => $transaction_id
             ]);
 
-            // Set what the current inventory is
+            // Set the current inventory is
             set_inventory();
-            // error_log(json_encode($sentry));
-            $sentry->setExtra("inventory", read_inventory());
+
+            // Set the inventory as Additional Information (Extra) on Sentry Event
+            $inventory = array("inventory"=>json_encode(get_inventory()));
+            $sentry->extra_context($inventory);
 
             $commitHash = trim(exec('git rev-parse HEAD'));
             $sentry->setRelease($commitHash);
@@ -46,14 +49,14 @@ class SentryContext
         return $next($request);
     }
 
-    // public function read_inventory() {
-    //     $inventory = new StdClass();
-    //     $inventory->wrench = Cache::get('wrench');
-    //     $inventory->nails = Cache::get('nails');
-    //     $inventory->hammer = Cache::get('hammer');
-    //     return $inventory;
-    // }
-
+    public function get_inventory() {
+        $inventory = new StdClass();
+        $inventory->wrench = Cache::get('wrench');
+        $inventory->nails = Cache::get('nails');
+        $inventory->hammer = Cache::get('hammer');
+        return $inventory;
+    }
+    // cache is cleared when app is initialized by makefile
     public function set_inventory() {
         $tools = array(1 => "wrench", 2 => "nails", 3 => "hammer");
         foreach ($tools as &$tool) {

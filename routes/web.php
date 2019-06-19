@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
+| The 'report' function in App/Exceptions/handler.php sends to Sentry
 |--------------------------------------------------------------------------
 */
 
@@ -18,7 +19,6 @@ Route::get('/handled', function (Request $request) {
     try {
         thisFunctionFails();
     } catch (\Throwable $exception) {
-        // Sentry Event is sent by 'report' function in Handler.php
         report($exception);
     }
     return $exception;
@@ -31,23 +31,19 @@ Route::get('/unhandled', function () {
 // TODO - tag scope, email, inventory, cart, other? see Flask demo
 Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
     load_cache();
-    $payload = $request->getContent();
     
-    $hammers = Cache::get('hammer');
-    error_log('HAMMERS IN STOCK ~~~~~~ ' . $hammers);
-
+    $payload = $request->getContent();
     $order = json_decode($payload);
     $cart = $order->cart;
 
     process_order($order->cart);
 
-    return 'successful';
-
+    return 'success';
 }]);
 
 function decrementStock($item) {
     Cache::decrement($item->id, 1);
-    error_log("SUCCESS");
+    error_log($item->id . " purchased");
 }
 function getInventory() {
     $inventory = new StdClass();
@@ -61,22 +57,18 @@ function isOutOfStock($item) {
     return $inventory->{$item->id} <= 0;
 }
 function load_cache() {
-    if (!Cache::has('wrench')) {
-        Cache::increment('wrench', 1);        
-    }
-    if (!Cache::has('nails')) {
-        Cache::increment('nails', 1);
-    }
-    if (!Cache::has('hammer')) {
-        Cache::increment('hammer', 1);
+    $tools = array(1 => "wrench", 2 => "nails", 3 => "hammer");
+    foreach ($tools as &$tool) {
+        if (!Cache::has($tool)) {
+            Cache::increment($tool, 1);        
+        }
     }
 }
 function process_order(array $cart) {
     foreach ($cart as $item) {
-        error_log("cart item " . json_encode($item));
-
         if (isOutOfStock($item)) {
-             error_log("FAILURE no Inventory");
+            error_log("Not enough stock for " . $item->id);
+            report(new Exception("Not enough inventory for " . $item->id));
         } else {
             decrementStock($item);
         }

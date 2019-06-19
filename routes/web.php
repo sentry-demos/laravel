@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
-| The 'report' function in App/Exceptions/handler.php sends to Sentry
+| The 'report' function in App/Exceptions/handler.php sends the error to Sentry
 |--------------------------------------------------------------------------
 */
 
@@ -28,8 +28,7 @@ Route::get('/unhandled', function () {
     1/0;
 });
 
-// TODO - tag scope, email, inventory, cart, other? see Flask demo
-Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
+Route::post('/checkout', function (Request $request) {
     load_cache();
     
     $payload = $request->getContent();
@@ -39,7 +38,7 @@ Route::post('/checkout', ['middleware' => 'cors',function (Request $request) {
     process_order($order->cart);
 
     return 'success';
-}]);
+});
 
 function decrementStock($item) {
     Cache::decrement($item->id, 1);
@@ -68,7 +67,7 @@ function process_order(array $cart) {
     foreach ($cart as $item) {
         if (isOutOfStock($item)) {
             error_log("Not enough stock for " . $item->id);
-            report(new Exception("Not enough inventory for " . $item->id));
+            throw new Exception("Not enough inventory for " . $item->id);
         } else {
             decrementStock($item);
         }

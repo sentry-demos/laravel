@@ -26,12 +26,12 @@ class SentryContext
                 $sentry->user_context(['id' => null]);
             }
 
-            // TODO - get the request header 
+            $transaction_id = $request->header('X-Transaction-ID');
 
             // Setting tags
             $sentry->tags_context([
                 'customerType' => 'enterprise',
-                'transaction_id' => $request->X-Transaction-ID
+                'transaction_id' => $transaction_id
             ]);
 
             $commitHash = trim(exec('git rev-parse HEAD'));

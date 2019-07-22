@@ -35,10 +35,8 @@ class SentryContext
                 'transaction_id' => $transaction_id
             ]);
 
-            // Set the current inventory is
-            set_inventory();
-
             // Set the inventory as Additional Information (Extra) on Sentry Event
+            set_inventory();
             $inventory = array("inventory"=>json_encode(get_inventory()));
             $sentry->extra_context($inventory);
 

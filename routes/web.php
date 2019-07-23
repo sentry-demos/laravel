@@ -29,7 +29,6 @@ Route::get('/unhandled', function () {
 });
 
 Route::post('/checkout', function (Request $request) {
-// Route::post('/checkout', ['middleware' => 'cors', function (Request $request) {
     
     $payload = $request->getContent();
     $order = json_decode($payload);

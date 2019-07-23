@@ -14,8 +14,6 @@ This shows how to use Sentry in Laravel to capture errors/exceptions
 3. Run server. `$ make`
 5. `http://localhost:8000/handled` and `http://localhost:8000/unhandled` to trigger errors
 
-<!-- 4. Go to http://localhost:8000 to trigger error. You should see issue/event within Sentry project -->
-
 # Resources:
 - https://sentry.io/for/laravel/
 - https://docs.sentry.io/clients/php/

@@ -17,7 +17,7 @@ Auth::routes();
 
 Route::get('/handled', function (Request $request) {
     try {
-        thisFunctionFails();
+        throw new Exception("This is a handled exception");
     } catch (\Throwable $exception) {
         report($exception);
     }

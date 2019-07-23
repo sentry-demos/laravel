@@ -1,3 +1,7 @@
+# PR Notes
+- delete resources/views/home.blade.php and as much front-end View code you can, styling.
+- remove additional files
+
 # Sentry Laravel Example
 
 This shows how to use Sentry in Laravel to capture errors/exceptions
@@ -8,7 +12,7 @@ This shows how to use Sentry in Laravel to capture errors/exceptions
 3. Set your DSN key + projectID in `.env`
 4. `npm install -g @sentry/cli # remember to specify creds in env vars`
 3. Run server. `$ make`
-4. Go to http://localhost:8000 to trigger error. You should see issue/event within Sentry project
+5. `http://localhost:8000/handled` and `http://localhost:8000/unhandled` to trigger errors
 
 # Resources:
 - https://sentry.io/for/laravel/

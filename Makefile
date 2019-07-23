@@ -15,4 +15,4 @@ associate_commits:
 	sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(VERSION)
 
 serve:
-	php artisan serve
+	php artisan cache:clear && php artisan serve

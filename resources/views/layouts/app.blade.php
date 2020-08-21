@@ -13,8 +13,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
-    <script src="https://cdn.ravenjs.com/3.22.1/raven.min.js" crossorigin="anonymous"></script>
-    <script>Raven.config('https://42336261ed494ace84f3de3b4e90983e@sentry.io/260278').install()</script>
+    <script src="https://browser.sentry-cdn.com/5.15.5/bundle.min.js" crossorigin="anonymous"></script>
+    <script>Sentry.config('https://0d52d5f4e8a64f5ab2edce50d88a7626@o87286.ingest.sentry.io/1428657').install()</script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">

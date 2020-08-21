@@ -51,6 +51,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
+        // error_log("MAPWEBROUTES");
         Route::middleware('web', 'cors')
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));

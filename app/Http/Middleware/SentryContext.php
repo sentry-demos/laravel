@@ -34,7 +34,7 @@ class SentryContext
                 'customerType' => 'enterprise',
                 'transaction_id' => $transaction_id
             ]);
-
+            error_log("I AM IN SENTRY CONTEXT");
             // Set the inventory as Additional Information (Extra) on Sentry Event
             set_inventory();
             $inventory = array("inventory"=>json_encode(get_inventory()));

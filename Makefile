@@ -10,7 +10,10 @@ WHOAMI=$(shell whoami)
 GCP_SERVICE_NAME=laravel-errors
 GCP_WORKSPACE_NAME=workspace_laravels_errors
 REPOSITORY=us.gcr.io/sales-engineering-sf
+<<<<<<< HEAD
 
+=======
+>>>>>>> tmp
 
 setup_release: create_release associate_commits serve
 
@@ -31,6 +34,5 @@ build_image:
 
 deploy_service:
 	gcloud run deploy $(WHOAMI)-$(GCP_SERVICE_NAME) --image $(REPOSITORY)/$(GCP_WORKSPACE_NAME):$(COMMIT_SHA) --platform managed
-# ---
 
-.PHONY: setup_release create_release associate_commits serve deploy_gcp build laravel
+.PHONY: setup_release create_release associate_commits serve deploy_gcp

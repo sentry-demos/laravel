@@ -30,39 +30,19 @@ Route::get('/unhandled', function () {
     1/0;
 });
 
-
-
 Route::post('/checkout', function (Request $request) {
 
-    
-   
     $payload = $request->getContent();
-    error_log("REQUEST");
-    error_log($request);
-    
-    error_log("PAYLOAD");
-    error_log(is_string($payload));
     $order = json_decode($payload);
-    
-    error_log("ORDER");
-    //error_log($order);
-
     $cart = $order->cart;
-    
 
     try {
         process_order($order->cart);
-        //return 'success';
 
     } catch (Exception $e) {
-        error_log("I HIT EXCEPTION");
         report($e);
-        
-        //header("HTTP/1.1 500");
-        return response("Internal Server Error", 500)->header("HTTP/1.1 500");
+        return response("Internal Server Error", 500)->header("HTTP/1.1 500", "")->header('Content-Type', "text/html");
     }
-
-    
 });
 
 function decrementInventory($item) {
@@ -92,12 +72,11 @@ function process_order(array $cart) {
     }
 }
 
-//TODO: will be using this from the request headers
 function set_inventory() {
     $tools = array(1 => "wrench", 2 => "nails", 3 => "hammer");
     foreach ($tools as &$tool) {
         if (!Cache::has($tool)) {
-            Cache::increment($tool, 1);        
+            Cache::increment($tool, 1);
         }
     }
 }

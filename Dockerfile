@@ -7,5 +7,5 @@ COPY . /app
 RUN composer install
 
 ##environment variable in GCP, port number
-CMD php artisan serve  --port=$PORT
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
 EXPOSE $PORT

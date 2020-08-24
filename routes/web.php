@@ -31,7 +31,6 @@ Route::get('/unhandled', function () {
 });
 
 Route::post('/checkout', function (Request $request) {
-
     $payload = $request->getContent();
     $order = json_decode($payload);
     $cart = $order->cart;

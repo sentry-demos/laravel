@@ -21,6 +21,3 @@ web.php has multiple endpoints for showing different ways that errors are handle
 # GCP Cloud Run
 1. make deploy_gcp
 
-# Resources:
-- https://sentry.io/for/laravel/
-- https://docs.sentry.io/clients/php/

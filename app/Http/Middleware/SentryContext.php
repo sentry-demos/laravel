@@ -34,7 +34,6 @@ class SentryContext
                 'customerType' => 'enterprise',
                 'transaction_id' => $transaction_id
             ]);
-
             // Set the inventory as Additional Information (Extra) on Sentry Event
             set_inventory();
             $inventory = array("inventory"=>json_encode(get_inventory()));
@@ -59,7 +58,7 @@ class SentryContext
         $tools = array(1 => "wrench", 2 => "nails", 3 => "hammer");
         foreach ($tools as &$tool) {
             if (!Cache::has($tool)) {
-                Cache::increment($tool, 1);        
+                Cache::increment($tool, 1);
             }
         }
     }

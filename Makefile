@@ -10,10 +10,6 @@ WHOAMI=$(shell whoami)
 GCP_SERVICE_NAME=laravel-errors
 GCP_WORKSPACE_NAME=workspace_laravels_errors
 REPOSITORY=us.gcr.io/sales-engineering-sf
-<<<<<<< HEAD
-
-=======
->>>>>>> tmp
 
 setup_release: create_release associate_commits serve
 

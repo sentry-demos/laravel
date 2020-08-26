@@ -66,7 +66,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($method == "OPTIONS") {
     header('Access-Control-Allow-Origin: *');
     header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization, x-transaction-id, x-session-id");
-    error_log("RESPONSESSSSSSS");
     die();
 }
 

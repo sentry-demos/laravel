@@ -3,17 +3,13 @@
 #  SENTRY_AUTH_TOKEN
 
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=sentry-demos-laravel
+SENTRY_PROJECT=laraveladam
 VERSION=`sentry-cli releases propose-version`
 COMMIT_SHA=$(shell git rev-parse HEAD)
 WHOAMI=$(shell whoami)
 GCP_SERVICE_NAME=laravel-errors
 GCP_WORKSPACE_NAME=workspace_laravels_errors
 REPOSITORY=us.gcr.io/sales-engineering-sf
-<<<<<<< HEAD
-
-=======
->>>>>>> tmp
 
 setup_release: create_release associate_commits serve
 

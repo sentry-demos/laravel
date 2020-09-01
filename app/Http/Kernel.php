@@ -17,26 +17,17 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-<<<<<<< Updated upstream
-        \App\Http\Middleware\Cors::class,
-=======
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Fruitcake\Cors\HandleCors::class,
->>>>>>> Stashed changes
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         StartSession::class,
         ShareErrorsFromSession::class,
-<<<<<<< Updated upstream
-        SentryContext::class
-        
-=======
         //SentryContext::class,
         \App\Http\Middleware\Cors::class
->>>>>>> Stashed changes
     ];
 
     /**
@@ -72,12 +63,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-<<<<<<< Updated upstream
-        'cors' => \App\Http\Middleware\Cors::class, 
-        'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
-=======
         'auth' => \App\Http\Middleware\Authenticate::class,
->>>>>>> Stashed changes
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -86,10 +72,7 @@ class Kernel extends HttpKernel
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-<<<<<<< Updated upstream
-=======
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cors' => \App\Http\Middleware\Cors::class
->>>>>>> Stashed changes
     ];
 }

@@ -35,32 +35,23 @@ Route::get('/unhandled', function () {
 });
 
 Route::post('/checkout', function (Request $request) {
-<<<<<<< Updated upstream
-    $payload = $request->getContent();
-    $order = json_decode($payload);
-    $cart = $order->cart;
-
+    
     try {
-        process_order($order->cart);
-=======
-    
-    
-    app('sentry')->configureScope(static function (Scope $scope) use ($request): void {
-        //$scope->setTags('testy', ["a" => "b"]);
-        error_log($request);
-        $payload = $request->getContent();
-        $order = json_decode($payload);
-        error_log($payload);
-        $email = $order->email;
-        $cart = $order->cart;
-        $scope->setUser(['email' => $email]);
-        $scope->setTags(["transaction_id" => $request->header('X-Transaction-ID')]);
-        $scope->setTags(["session-id" => $request->header('X-Session-Id')]);
-        $scope->setExtra("order", $cart);
-        process_order($order->cart);
-        
-    });
->>>>>>> Stashed changes
+        app('sentry')->configureScope(static function (Scope $scope) use ($request): void {
+            //$scope->setTags('testy', ["a" => "b"]);
+            error_log($request);
+            $payload = $request->getContent();
+            $order = json_decode($payload);
+            error_log($payload);
+            $email = $order->email;
+            $cart = $order->cart;
+            $scope->setUser(['email' => $email]);
+            $scope->setTags(["transaction_id" => $request->header('X-Transaction-ID')]);
+            $scope->setTags(["session-id" => $request->header('X-Session-Id')]);
+            $scope->setExtra("order", $cart);
+            process_order($order->cart);
+            
+        });
 
     } catch (Exception $e) {
         report($e);

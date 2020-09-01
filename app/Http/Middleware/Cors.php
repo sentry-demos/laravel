@@ -19,6 +19,7 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
+<<<<<<< Updated upstream
 
             header("Access-Control-Allow-Origin: *");
 
@@ -36,6 +37,13 @@ class Cors
             foreach($headers as $key => $value)
                 $response->header($key, $value);
             return $response;
+=======
+        error_log($request);
+        return $next($request)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization, x-transaction-id');
+>>>>>>> Stashed changes
     }
 }
 

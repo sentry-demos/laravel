@@ -1,21 +1,25 @@
 <?php
 
 include 'inventory.php';
+use Illuminate\Support\Facades\Route;
 use App\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Sentry\State\Scope;
 
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
-| The 'report' function in App/Exceptions/handler.php sends the error to Sentry
 |--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
 */
-
-
-Auth::routes();
+//Auth::routes();
 
 Route::get('/handled', function (Request $request) {
     try {
@@ -31,12 +35,32 @@ Route::get('/unhandled', function () {
 });
 
 Route::post('/checkout', function (Request $request) {
+<<<<<<< Updated upstream
     $payload = $request->getContent();
     $order = json_decode($payload);
     $cart = $order->cart;
 
     try {
         process_order($order->cart);
+=======
+    
+    
+    app('sentry')->configureScope(static function (Scope $scope) use ($request): void {
+        //$scope->setTags('testy', ["a" => "b"]);
+        error_log($request);
+        $payload = $request->getContent();
+        $order = json_decode($payload);
+        error_log($payload);
+        $email = $order->email;
+        $cart = $order->cart;
+        $scope->setUser(['email' => $email]);
+        $scope->setTags(["transaction_id" => $request->header('X-Transaction-ID')]);
+        $scope->setTags(["session-id" => $request->header('X-Session-Id')]);
+        $scope->setExtra("order", $cart);
+        process_order($order->cart);
+        
+    });
+>>>>>>> Stashed changes
 
     } catch (Exception $e) {
         report($e);
@@ -79,3 +103,7 @@ function set_inventory() {
         }
     }
 }
+
+Route::get('/', function () {
+    return view('welcome');
+});

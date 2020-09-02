@@ -36,14 +36,11 @@ Route::get('/unhandled', ['as' => 'unhandled', function () {
 }]);
 
 Route::post('/checkout', ['as' => 'checkout', function (Request $request) {
-    
+
     try {
         app('sentry')->configureScope(static function (Scope $scope) use ($request): void {
-            //$scope->setTags('testy', ["a" => "b"]);
-            error_log($request);
             $payload = $request->getContent();
             $order = json_decode($payload);
-            error_log($payload);
             $email = $order->email;
             $cart = $order->cart;
             $scope->setUser(['email' => $email]);
@@ -52,12 +49,8 @@ Route::post('/checkout', ['as' => 'checkout', function (Request $request) {
             $scope->setExtra("order", $cart);
             process_order($order->cart);
         });
-        //$payload = $request->getContent();
-        //$order = json_decode($payload);
-        //process_order($order->cart);
 
     } catch (Exception $e) {
-        error_log("I HIT AN EXCEPTION");
         report($e);
         return response("Internal Server Error", 500)->header("HTTP/1.1 500", "")->header('Content-Type', "text/html");
     }
@@ -65,7 +58,6 @@ Route::post('/checkout', ['as' => 'checkout', function (Request $request) {
 
 function decrementInventory($item) {
     Cache::decrement($item->id, 1);
-    error_log($item->id . " purchased");
 }
 function get_inventory() {
     $inventory = new StdClass();
@@ -82,7 +74,6 @@ function process_order(array $cart) {
     error_log("IN PROCESS ORDER");
     foreach ($cart as $item) {
         if (isOutOfStock($item)) {
-            error_log("Not enough inventory for " . $item->id);
             throw new Exception("Not enough inventory for " . $item->id);
         } else {
             decrementInventory($item);

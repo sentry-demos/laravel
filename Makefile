@@ -14,7 +14,7 @@ REPOSITORY=us.gcr.io/sales-engineering-sf
 setup_release: create_release associate_commits serve
 
 create_release:
-	sentry-cli releases -o $(SENTRY_ORG) new -p $(SENTRY_PROJECT) $(VERSION)
+	sentry-cli releases -o $(SENTRY_ORG) new $(VERSION) -p $(SENTRY_PROJECT) 
 
 associate_commits:
 	-sentry-cli releases -o $(SENTRY_ORG) -p $(SENTRY_PROJECT) set-commits --auto $(VERSION)

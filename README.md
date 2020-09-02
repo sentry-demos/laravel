@@ -13,7 +13,7 @@ web.php has multiple endpoints for showing different ways that errors are handle
 
 # Run With Docker
 1. docker build -t my-first-image .
-2. docker run -p 8001:8001 my-first-image
+2. docker run -p 8000:8000 my-first-image
 
 # GCP Cloud Run
 1. make deploy_gcp

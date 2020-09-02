@@ -21,20 +21,21 @@ use Sentry\State\Scope;
 */
 //Auth::routes();
 
-Route::get('/handled', function (Request $request) {
+Route::get('/handled', ['as' => 'handled', function (Request $request) {
     try {
         throw new Exception("This is a handled exception");
     } catch (\Throwable $exception) {
         report($exception);
     }
     return $exception;
-});
+}]);
 
-Route::get('/unhandled', function () {
+Route::get('/unhandled', ['as' => 'unhandled', function () {
+    //
     1/0;
-});
+}]);
 
-Route::post('/checkout', function (Request $request) {
+Route::post('/checkout', ['as' => 'checkout', function (Request $request) {
     
     try {
         app('sentry')->configureScope(static function (Scope $scope) use ($request): void {
@@ -50,14 +51,17 @@ Route::post('/checkout', function (Request $request) {
             $scope->setTags(["session-id" => $request->header('X-Session-Id')]);
             $scope->setExtra("order", $cart);
             process_order($order->cart);
-            
         });
+        //$payload = $request->getContent();
+        //$order = json_decode($payload);
+        //process_order($order->cart);
 
     } catch (Exception $e) {
+        error_log("I HIT AN EXCEPTION");
         report($e);
         return response("Internal Server Error", 500)->header("HTTP/1.1 500", "")->header('Content-Type', "text/html");
     }
-});
+}]);
 
 function decrementInventory($item) {
     Cache::decrement($item->id, 1);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
+//use Closure;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -17,12 +17,12 @@ class Cors
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, $next)
     {
         return $next($request)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-            ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization, x-transaction-id');
+            ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization, x-transaction-id, x-session-id');
     }
 }
 

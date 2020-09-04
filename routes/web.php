@@ -31,7 +31,6 @@ Route::get('/handled', ['as' => 'handled', function (Request $request) {
 }]);
 
 Route::get('/unhandled', ['as' => 'unhandled', function () {
-    //
     1/0;
 }]);
 

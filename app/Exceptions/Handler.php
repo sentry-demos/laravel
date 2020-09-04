@@ -39,24 +39,6 @@ class Handler extends ExceptionHandler
         if (app()->bound('sentry') && $this->shouldReport($exception)) {
             app('sentry')->captureException($exception);
         }
-    
         parent::report($exception);
     }
-
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
-     */
-    // public function render($request, Exception $exception)
-    // {
-    //     if (app()->bound('sentry') && $this->shouldReport($exception)) {
-    //         app('sentry')->captureException($exception);
-    //     }
-    //     return parent::render($request, $exception);
-    // }
 }

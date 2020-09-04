@@ -8,8 +8,8 @@ web.php has multiple endpoints for showing different ways that errors are handle
 # Setup
 1. `composer install`
 2. Set your DSN key, projectID, and Sentry OrganizationID in `.env`
-4. make
-5. `http://localhost:8000/handled` and `http://localhost:8000/unhandled` to trigger errors
+3. make
+4. `http://localhost:8000/handled` and `http://localhost:8000/unhandled` to trigger errors
 
 # Run With Docker
 1. docker build -t my-first-image .

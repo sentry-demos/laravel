@@ -1,19 +1,19 @@
-# PR Notes
-- delete resources/views/home.blade.php and as much front-end View code you can, styling.
-- remove additional files
+To show how Sentry works in an example web app that uses PHP Laravel
 
-# Sentry Laravel Example
+How to integrate the Sentry SDK into Laravel (https://docs.sentry.io/platforms/php/laravel/)
+trigger an error that gets sent as Event to Sentry.io Platform
+web.php has multiple endpoints for showing different ways that errors are handled
 
-This shows how to use Sentry in Laravel to capture errors/exceptions
 
 # Setup
-1. Make sure mysql DB is created (as per .env)
-2. `$ compose install`
-3. Set your DSN key + projectID in `.env`
-4. `npm install -g @sentry/cli # remember to specify creds in env vars`
-3. Run server. `$ make`
-5. `http://localhost:8000/handled` and `http://localhost:8000/unhandled` to trigger errors
+1. `composer install`
+2. Set your DSN key, projectID, and Sentry OrganizationID in `.env`
+3. make
+4. `http://localhost:8000/handled` and `http://localhost:8000/unhandled` to trigger errors
 
-# Resources:
-- https://sentry.io/for/laravel/
-- https://docs.sentry.io/clients/php/
+# Run With Docker
+1. docker build -t my-first-image .
+2. docker run -p 8000:8000 my-first-image
+
+# GCP Cloud Run
+1. make deploy_gcp

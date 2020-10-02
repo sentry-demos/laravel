@@ -73,7 +73,7 @@ function process_order(array $cart) {
     error_log("IN PROCESS ORDER");
     foreach ($cart as $item) {
         if (isOutOfStock($item)) {
-            throw new Exception("Not enough inventory for " . $item->id);
+            throw new Exception("Not enough inventory for :" . $item->id);
         } else {
             decrementInventory($item);
         }

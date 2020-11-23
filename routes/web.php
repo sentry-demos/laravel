@@ -16,7 +16,7 @@ use Sentry\State\Scope;
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| contains the "web" middleware group. Now let's create something great!
 |
 */
 //Auth::routes();
@@ -73,7 +73,7 @@ function process_order(array $cart) {
     error_log("IN PROCESS ORDER");
     foreach ($cart as $item) {
         if (isOutOfStock($item)) {
-            throw new Exception("Not enough inventory for " . $item->id);
+            throw new Exception("Not enough inventory for :" . $item->id);
         } else {
             decrementInventory($item);
         }

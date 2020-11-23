@@ -3,7 +3,7 @@
 #  SENTRY_AUTH_TOKEN
 
 SENTRY_ORG=testorg-az
-SENTRY_PROJECT=laraveladam
+SENTRY_PROJECT=rohit-laravel-test
 VERSION=`sentry-cli releases propose-version`
 COMMIT_SHA=$(shell git rev-parse HEAD)
 WHOAMI=$(shell whoami)

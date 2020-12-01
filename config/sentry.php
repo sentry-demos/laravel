@@ -27,4 +27,6 @@ return [
     // @see: https://docs.sentry.io/error-reporting/configuration/?platform=php#send-default-pii
     'send_default_pii' => false,
 
+    // Configure performance monitoring
+    'traces_sample_rate' => 1.0,  # be sure to lower this in production to prevent quota issues
 ];

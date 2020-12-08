@@ -92,3 +92,7 @@ function set_inventory() {
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/success', ['as' => 'success', function () {
+    return 'success';
+}]);

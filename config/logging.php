@@ -54,6 +54,12 @@ return [
             'days' => 14,
         ],
 
+        'sentry' => [
+            'driver' => 'sentry',
+            'level'  => 'debug',
+            'bubble' => true,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

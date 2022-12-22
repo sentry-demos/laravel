@@ -41,6 +41,24 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+
+# [START] Set the storage path to the environment variable APP_STORAGE
+/*
+|--------------------------------------------------------------------------
+| Set Storage Path
+|--------------------------------------------------------------------------
+|
+| Fixes the following error when deploying to Google App Engine:
+|
+|   The stream or file "/srv/storage/logs/laravel.log" could not be ... Read-only file system
+|
+*/
+
+$app->useStoragePath(env('APP_STORAGE', base_path() . '/storage'));
+# [END]
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

@@ -7,6 +7,35 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+# [START] Add the following block to `public/index.php`
+/*
+|--------------------------------------------------------------------------
+| GCP App Engine Writable Directories
+|--------------------------------------------------------------------------
+|
+| Before we start up Laravel, let's check if we are running in GCP App Engine,
+| and, if so, make sure that the Laravel's storage directory structure is
+| present.
+|
+*/
+
+if (getenv('IS_APP_ENGINE')
+    && !file_exists('/tmp/.dirs_created')) {
+    foreach (['/tmp/app/public',
+                '/tmp/framework/cache/data',
+                '/tmp/framework/sessions',
+                '/tmp/framework/testing',
+                '/tmp/framework/views',
+                '/tmp/logs'] as $tmpdir) {
+        if (!file_exists($tmpdir)) {
+            mkdir($tmpdir, 0755, true);
+        }
+    }
+    touch('/tmp/.dirs_created');
+}
+# [END]
+
+
 define('LARAVEL_START', microtime(true));
 
 /*
